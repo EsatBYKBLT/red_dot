@@ -1,0 +1,64 @@
+[gd_scene load_steps=9 format=3 uid="uid://bclmch0dj854v"]
+
+[ext_resource type="PackedScene" uid="uid://w3whfidrhijv" path="res://Characters/red_ball.tscn" id="1_m55mp"]
+[ext_resource type="PackedScene" uid="uid://olqwp7gm4xv7" path="res://BP/BP_Camera.tscn" id="2_gqxar"]
+[ext_resource type="MeshLibrary" uid="uid://bcss3f1trxu8o" path="res://ML/meshlib.tres" id="3_1swb7"]
+[ext_resource type="PackedScene" uid="uid://6oqdypg4mviy" path="res://BP/BP_NewLevel.tscn" id="4_d1ovi"]
+[ext_resource type="PackedScene" uid="uid://dsawuf1gf05ia" path="res://BP/BP_Platform.tscn" id="5_vkmed"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_32b4e"]
+sky_top_color = Color(0.282353, 0.721569, 0.909804, 1)
+sky_horizon_color = Color(0.945098, 0.694118, 0.756863, 1)
+sky_curve = 0.356762
+ground_bottom_color = Color(0.639216, 0.478431, 0.705882, 1)
+ground_horizon_color = Color(0.945098, 0.694118, 0.756863, 1)
+ground_curve = 0.251068
+
+[sub_resource type="Sky" id="Sky_k3o5w"]
+sky_material = SubResource("ProceduralSkyMaterial_32b4e")
+
+[sub_resource type="Environment" id="Environment_gw8v3"]
+background_mode = 2
+sky = SubResource("Sky_k3o5w")
+tonemap_mode = 2
+sdfgi_enabled = true
+glow_enabled = true
+
+[node name="Node3D" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_gw8v3")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.149535, -0.885641, 0.439636, 0, 0.444635, 0.895712, -0.988756, -0.133941, 0.0664887, 0, 0, 0)
+light_color = Color(0.929412, 0.929412, 0.698039, 1)
+shadow_enabled = true
+
+[node name="Red_Ball" parent="." node_paths=PackedStringArray("EGimbal") instance=ExtResource("1_m55mp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.13809, 0.985243, 0)
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+lock_rotation = true
+linear_damp_mode = 1
+angular_damp = 3.0
+EGimbal = NodePath("../GimbalY")
+
+[node name="GimbalY" parent="." node_paths=PackedStringArray("follow_object") instance=ExtResource("2_gqxar")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.699077, 0.378951, 0.753722)
+follow_object = NodePath("../Red_Ball")
+
+[node name="GridMap" type="GridMap" parent="."]
+mesh_library = ExtResource("3_1swb7")
+cell_center_y = false
+data = {
+"cells": PackedInt32Array(1, 65534, 0, 0, 65535, 0, 0, 0, 0, 3, 0, 0, 4, 0, 0, 4, 65535, 0, 1, 65535, 0, 1, 0, 0, 1, 65531, 0, 1, 65533, 0, 1, 65532, 0, 65531, 65530, 0, 65530, 65530, 0, 65529, 65530, 0, 65529, 65529, 0, 3, 65533, 2, 2, 0, 0, 2, 65535, 0, 3, 65535, 0, 0, 65534, 0, 0, 65533, 0, 0, 65532, 0, 0, 65531, 0, 65531, 65531, 0, 65530, 65531, 0)
+}
+
+[node name="NewLevel" parent="." instance=ExtResource("4_d1ovi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.7912, 0.25, -12.8494)
+
+[node name="Platform" parent="." instance=ExtResource("5_vkmed")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.25, -9.005)
+offsett = Vector3(-6, 0, 0)
+time = 3.0

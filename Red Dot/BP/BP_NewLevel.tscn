@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://6oqdypg4mviy"]
+
+[ext_resource type="Script" path="res://NewLevel.gd" id="1_021hx"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gnhy0"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_swk2n"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ha6k2"]
+metallic = 1.0
+roughness = 0.0
+emission_enabled = true
+emission = Color(0, 1, 0, 1)
+clearcoat_enabled = true
+
+[node name="NewLevel" type="Area3D"]
+input_capture_on_drag = true
+script = ExtResource("1_021hx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+shape = SubResource("BoxShape3D_gnhy0")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("SphereMesh_swk2n")
+surface_material_override/0 = SubResource("StandardMaterial3D_ha6k2")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
